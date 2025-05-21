@@ -77,11 +77,12 @@ jobs:
       - name: Log in to DockerHub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-    - name: Build and push Docker image
-      run: |
-      docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/devsu-demo-devops:latest ./app
-      docker tag ${{ secrets.DOCKERHUB_USERNAME }}/devsu-demo-devops:latest ${{ secrets.DOCKERHUB_USERNAME }}/devsu-demo-devops:${{ github.sha }}
-      docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsu-demo-devops:latest
-      docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsu-demo-devops:${{ github.sha }}
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/devsu-demo-devops:latest ./app
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/devsu-demo-devops:latest ${{ secrets.DOCKERHUB_USERNAME }}/devsu-demo-devops:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsu-demo-devops:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsu-demo-devops:${{ github.sha }}
+
 
 
