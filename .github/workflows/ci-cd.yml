@@ -8,6 +8,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_DB: devsupgdb
+          POSTGRES_USER: devsupguser
+          POSTGRES_PASSWORD: devsupgpass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DJANGO_SECRET_KEY: dummy-secret-key-for-ci
+      DEBUG: 'False'
+      DB_NAME: devsupgdb
+      DB_USER: devsupguser
+      DB_PASSWORD: devsupgpass
+      DB_HOST: localhost
+      DB_PORT: 5432
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -19,7 +43,21 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pip install --upgrade pip
           pip install -r app/requirements.txt
+          pip install flake8 coverage
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h localhost -p 5432 -U $DB_USER; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 5
+          done
+
+      - name: Run migrations
+        run: |
+          cd app
+          python manage.py migrate
 
       - name: Run tests
         run: |
@@ -28,12 +66,10 @@ jobs:
 
       - name: Static analysis
         run: |
-          pip install flake8
           flake8 app
 
       - name: Test coverage
         run: |
-          pip install coverage
           cd app
           coverage run manage.py test
           coverage report
