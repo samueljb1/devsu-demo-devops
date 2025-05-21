@@ -1,0 +1,47 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r app/requirements.txt
+
+      - name: Run tests
+        run: |
+          cd app
+          python manage.py test
+
+      - name: Static analysis
+        run: |
+          pip install flake8
+          flake8 app
+
+      - name: Test coverage
+        run: |
+          pip install coverage
+          cd app
+          coverage run manage.py test
+          coverage report
+
+      - name: Log in to DockerHub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "samueljb1" --password-stdin
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t samueljb1/devsu-demo-devops:latest ./app
+          docker push samueljb1/devsu-demo-devops:latest

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: devsudb
+      POSTGRES_USER: devsuuser
+      POSTGRES_PASSWORD: devsupass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - devnet
+
+  web:
+    build: ./app
+    command: gunicorn demo.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./app:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_NAME=devsudb
+      - DB_USER=devsuuser
+      - DB_PASSWORD=devsupass
+      - DB_HOST=db
+    networks:
+      - devnet
+
+volumes:
+  postgres_data:
+
+networks:
+  devnet:
