@@ -13,7 +13,13 @@ class TestUserView(APITestCase):
     def test_post(self):
         response = self.client.post(self.url, self.data, format='json')
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(json.loads(response.content), {"id": 2, "name":"Test2", "dni":"09876543211"})
+
+        response_data = json.loads(response.content)
+        self.assertEqual(response_data['name'], self.data['name'])
+        self.assertEqual(response_data['dni'], self.data['dni'])
+        self.assertIn('id', response_data)
+        self.assertIsInstance(response_data['id'], int)
+
         self.assertEqual(User.objects.count(), 2)
 
     def test_get_list(self):
