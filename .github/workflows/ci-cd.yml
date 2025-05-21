@@ -75,7 +75,7 @@ jobs:
           coverage report
 
       - name: Log in to DockerHub
-        run: echo "${{ secrets.devsudocker123 }}" | docker login -u "samueljb1" --password-stdin
+        run: echo "devsudocker123" | docker login -u "samueljb1" --password-stdin
 
       - name: Build and push Docker image
         run: |
