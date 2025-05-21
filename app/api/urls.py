@@ -7,5 +7,5 @@ router.register(r'users', UserViewSet, basename='users')
 
 urlpatterns = [
     path('', include(router.urls)),     # /users/ y /users/{id}/ Come here
-    path('hello/', hello_view),        # /hello/ 
+    path('hello/', hello_view),        # /hello/
 ]
