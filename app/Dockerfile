@@ -5,14 +5,14 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Instala dependencias del sistema necesarias para compilar paquetes como psycopg2
+# Install dependencies - like psycopg2
 RUN apt-get update && apt-get install -y gcc libpq-dev curl && apt-get clean
 
-# Copia e instala dependencias primero para usar la cache correctamente
+# Copy and install dependencies first to use the cache correctly
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copia el resto del código
+# Copy code
 COPY . .
 
 ENV PYTHONPATH="/app"
@@ -21,11 +21,11 @@ ENV PYTHONPATH="/app"
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:8000/api/hello/ || exit 1
 
-# Crear usuario sin privilegios
+# Create user without privileges
 RUN adduser --disabled-password --no-create-home appuser
 USER appuser
 
-# Arrancar la app
+# RUN APP
 CMD ["gunicorn", "demo.wsgi:application", "--bind", "0.0.0.0:8000"]
 
 
