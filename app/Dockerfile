@@ -1,31 +1,21 @@
+# Use Python 3.11 slim image
 FROM python:3.11-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
+# Set working directory inside the container
 WORKDIR /app
 
-# Install dependencies - like psycopg2
-RUN apt-get update && apt-get install -y gcc libpq-dev curl && apt-get clean
+# Copy contents from host's app/ to container's /app/
+COPY . /app/
 
-# Copy and install dependencies first to use the cache correctly
-COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+# Install dependencies from requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy code
-COPY . .
+# Expose port used by Gunicorn
+EXPOSE 8000
 
-ENV PYTHONPATH="/app"
+# Set PYTHONPATH in case Django project needs it
+ENV PYTHONPATH=/app
 
-# Healthcheck
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8000/api/hello/ || exit 1
-
-# Create user without privileges
-RUN adduser --disabled-password --no-create-home appuser
-USER appuser
-
-# RUN APP
-CMD ["gunicorn", "demo.wsgi:application", "--bind", "0.0.0.0:8000"]
-
+# Start Gunicorn using the correct Django project name ("demo")
+CMD ["gunicorn", "--chdir", ".", "--bind", "0.0.0.0:8000", "demo.wsgi:application"]
 

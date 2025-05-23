@@ -14,10 +14,13 @@ spec:
     spec:
       containers:
         - name: django
-          image: samueljb1/devsu-demo:latest
+          image: samueljb1/devsu-django-app:latest
+          command: ["gunicorn", "--bind", "0.0.0.0:8000", "demo.wsgi:application"]
           ports:
             - containerPort: 8000
           env:
+            - name: DJANGO_ALLOWED_HOSTS
+              value: "localhost,127.0.0.1,django.local,10.1.0.40,10.1.0.41"
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
@@ -38,3 +41,10 @@ spec:
                 secretKeyRef:
                   name: django-secret
                   key: DB_PASSWORD
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

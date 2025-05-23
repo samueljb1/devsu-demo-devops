@@ -15,8 +15,8 @@ services:
   web:
     build: ./app
     command: gunicorn demo.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - ./app:/app
+   # volumes:
+    #  - ./app:/app
     ports:
       - "8000:8000"
     depends_on:

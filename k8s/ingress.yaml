@@ -5,6 +5,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
     - host: django.local
       http:
@@ -16,4 +17,5 @@ spec:
                 name: django-service
                 port:
                   number: 80
+
 
