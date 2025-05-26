@@ -17,7 +17,7 @@ Use of ConfigMaps, Secrets, Ingress, and HPA.
 
 Bonus: IaC practices with structured and reusable Kubernetes manifests.
 
-🚀 Technologies Used
+Technologies Used
 
 Python 3.11 / Django
 
@@ -74,7 +74,7 @@ If you encounter a 404 error, ensure the Ingress and Service are configured prop
 
 127.0.0.1 django.local
 
-⚙️ GitHub Actions
+ GitHub Actions
 
 The CI/CD workflow includes:
 
