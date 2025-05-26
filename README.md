@@ -2,7 +2,8 @@
 
 DevOps Technical Challenge – Django + PostgreSQL + Kubernetes
 
-📦 Project Overview
+
+Project Overview
 
 This is a demo project showcasing DevOps skills, including:
 
@@ -34,7 +35,7 @@ HPA (Horizontal Pod Autoscaler)
 
 ConfigMap / Secret / Ingress
 
-📁 Project Structure
+ Project Structure
 
 ├── app/                # Django app
 ├── Dockerfile          # Builds the image
@@ -89,7 +90,7 @@ Triggering Kubernetes deployment (manually or via kubectl)
 
 All workflows are defined in .github/workflows/main.yml.
 
-📊 Diagrams
+ Diagrams
 
 1. Architecture Diagram
 
@@ -99,7 +100,7 @@ All workflows are defined in .github/workflows/main.yml.
 
 
 
-📷 Screenshots
+ Screenshots
 
 App running in browser
 
@@ -109,7 +110,7 @@ GitHub Actions pipeline passing
 
 DockerHub image visible and tagged
 
-🛠️ Troubleshooting
+ Troubleshooting
 
 CrashLoopBackOff: Ensure the PostgreSQL container is running and the DB settings (ConfigMap/Secret) match the Django settings.
 
@@ -117,7 +118,7 @@ Ingress 404: Check service name and ingress host. Add domain to /etc/hosts.
 
 Database errors: Confirm connectivity using psql, check logs with kubectl logs <postgres-pod>.
 
-🔗 URLs to Include in Delivery
+ URLs to Include in Delivery
 
 GitHub repo: https://github.com/samueljb1/devsu-demo-devops-final
 
@@ -127,5 +128,5 @@ App: http://localhost / http://django.local (see screenshots)
 
 GitHub Actions: GitHub repo → Actions tab or screenshots in screenshots/
 
-Prepared by: Samuel BlancoEmail: samuel_jb1@hotmail.comDate: May 2025
+Prepared by: Samuel Blanco Email: samuel_jb1@hotmail.com Date: May 2025
 
