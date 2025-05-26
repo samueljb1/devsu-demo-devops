@@ -51,7 +51,7 @@ ConfigMap / Secret / Ingress
 │   └── hpa.yaml
 ├── screenshots/        # Images showing evidence of deployment
 
-🔧 How to Run
+ How to Run
 
 1. Locally with Docker Compose
 
