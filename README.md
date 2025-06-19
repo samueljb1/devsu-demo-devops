@@ -1,4 +1,4 @@
-# Devsu Demo DevOps Project
+# Demo DevOps Project
 
 DevOps Technical Challenge – Django + PostgreSQL + Kubernetes
 
